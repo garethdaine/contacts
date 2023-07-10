@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Commit fail message
+fail="Commit aborted. Please fix the issues before committing."
+
+# List of staged files
+list=$(git diff --name-only --cached --diff-filter=d)
+
+# Run Laravel Pint
+echo "Running Laravel Pint..."
+vendor/bin/pint
+
+# Check if either of the commands failed
+if [ $? -ne 0 ]; then echo ""; echo $fail; exit 1; fi
+
+# Add any unstaged files processed by pint (if any)
+printf $list | xargs git add
+
+# Run Pest tests
+echo "Running Pest tests..."
+script -q /dev/null vendor/bin/pest --compact --colors=always
+
+# Check if either of the commands failed
+if [ $? -ne 0 ]; then echo ""; echo $fail; exit 1; fi
+
+# Run Laravel Stan
+echo "Running Laravel Stan..."
+vendor/bin/phpstan analyze
+
+# Check if either of the commands failed
+if [ $? -ne 0 ]; then echo ""; echo $fail; exit 1; fi
+
+exit 0
