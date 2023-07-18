@@ -10,6 +10,11 @@ class Contact extends Model
 {
     use HasFactory, HasUuids;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $fillable = [
         'first_name',
         'last_name',
