@@ -1,16 +1,16 @@
 <!-- Moved template to top of file as point of personal preference -->
 <template>
-    <button :class="classes" @click="props.to && navigateTo(props.to)" :disabled="props.disabled || props.loading">
+    <button :class="classes" @click="to && navigateTo(to)" :disabled="disabled || loading">
         <slot name="before">
-            <app-icon v-if="props.iconLeft" :icon="props.iconLeft" />
+            <app-icon v-if="iconLeft" :icon="iconLeft" />
         </slot>
         <span>
-            <slot v-if="!props.loading"></slot>
-            <slot v-if="props.loading" name="loading"></slot>
+            <slot v-if="!loading"></slot>
+            <slot v-if="loading" name="loading"></slot>
         </span>
-        <app-loading v-if="props.loading" size="sm" class="inline-block ml-1" />
+        <app-loading v-if="loading" size="sm" class="inline-block ml-1" />
         <slot name="after">
-            <app-icon v-if="props.iconRight" :icon="props.iconRight" :lg="props.iconLarge" />
+            <app-icon v-if="iconRight" :icon="iconRight" :lg="iconLarge" />
         </slot>
     </button>
 </template>
